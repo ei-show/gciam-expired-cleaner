@@ -1,0 +1,36 @@
+{
+  "name": "gciam-expired-cleaner",
+  "version": "1.0.0",
+  "description": "Cloud Functions that deletes expired conditions in IAM set in Google Cloud.",
+  "main": "dist/index.js",
+  "scripts": {
+    "lint": "eslint \"src/**/*.{js,ts}\"",
+    "lint:fix": "eslint --fix \"src/**/*.{js,ts}\"",
+    "fmt": "prettier --write \"src/*.{js,ts}\"",
+    "fmt:warn": "prettier --l \"src/*.{js,ts}\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "dev": "tsc-watch --onSuccess 'functions-framework --target=MainFunction --signature-type=cloudevent'",
+    "start": "functions-framework --target=MainFunction --signature-type=cloudevent",
+    "prestart": "npm run build",
+    "gcp-build": "npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@9.1.0+sha512.67f5879916a9293e5cf059c23853d571beaf4f753c707f40cb22bed5fb1578c6aad3b6c4107ccb3ba0b35be003eb621a16471ac836c87beb53f9d54bb4612724",
+  "dependencies": {
+    "@google-cloud/functions-framework": "^3.4.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@typescript-eslint/parser": "^7.8.0",
+    "eslint": "^9.2.0",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.2.0",
+    "prettier": "^3.2.5",
+    "tsc-watch": "^6.2.0",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.8.0"
+  }
+}
