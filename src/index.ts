@@ -14,21 +14,6 @@ interface PubSubData {
   }
 }
 
-/**
- * Retrieves the IAM policy for a given project.
- * @param projectId - The ID of the project.
- * @returns A Promise that resolves to the IAM policy.
- */
-async function getIamPolicy(projectId: string) {
-  // Instantiates a client
-  const projectsClient = new ProjectsClient()
-
-  // Gets the IAM policy for the project
-  return await projectsClient.getIamPolicy({
-    resource: `projects/${projectId}`,
-  })
-}
-
 ff.cloudEvent<PubSubData>('MainFunction', (ce) => {
   // debug
   console.debug(ce)
@@ -46,7 +31,34 @@ ff.cloudEvent<PubSubData>('MainFunction', (ce) => {
   projectIdList.forEach(async (projectId) => {
 
     // get IAM policy
-    const policy = await getIamPolicy(projectId)
+    const projectsClient = new ProjectsClient()
+    const policy = await projectsClient.getIamPolicy({
+      resource: `projects/${projectId}`,
+      options: {
+        requestedPolicyVersion: 3,
+      },
+    })
     console.debug(policy)
+
+    // get Todate
+    const toDate = new Date()
+    console.debug(toDate)
+
+    // 次のtimestampが現在の日時よりも前の場合、IAMポリシーを削除する
+    // sample: { "condition": "request.time < timestamp('2021-09-30T00:00:00Z')" }
+    const bindings = policy[0].bindings
+    const newBindings = bindings?.filter((binding) => {
+      if (binding.condition) {
+        const condition = binding.condition.expression
+        const timestamp = condition?.match(/timestamp\('(.*)'\)/)
+        if (timestamp) {
+          const toDateTimestamp = toDate.getTime()
+          const conditionTimestamp = new Date(timestamp[1]).getTime()
+          return toDateTimestamp < conditionTimestamp
+        }
+      }
+      return true
+    })
+    console.debug(newBindings)
   })
 })
