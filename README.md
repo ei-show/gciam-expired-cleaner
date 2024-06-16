@@ -1,6 +1,8 @@
 # gciam-expired-cleaner
 Cloud Functions that deletes expired conditions in IAM set in Google Cloud.
 
+![Image Description](docs/images/infra.excalidraw.png)
+
 ## Setup
 
 ```sh
@@ -9,6 +11,11 @@ brew install dotenvx/brew/dotenvx # Install dotenv-cli
 ```
 
 テスト実行時に`dotenvx`を使って環境変数を設定する。
+その為、`.env.dev`を作成し、有効期限切れを削除したいプロジェクトをカンマ区切りで指定する。
+
+```:.env.dev
+GCP_PROJECT_IDS="PROJECT-A,PROJECT-B"
+```
 
 ## Test
 
