@@ -1,7 +1,16 @@
 # gciam-expired-cleaner
 Cloud Functions that deletes expired conditions in IAM set in Google Cloud.
 
-## test local
+## Setup
+
+```sh
+pnpm i # Install packages
+brew install dotenvx/brew/dotenvx # Install dotenv-cli
+```
+
+テスト実行時に`dotenvx`を使って環境変数を設定する。
+
+## Test
 
 ```sh
 pnpm dev
