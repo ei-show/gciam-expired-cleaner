@@ -30,27 +30,27 @@ ff.cloudEvent<PubSubData>('MainFunction', (ce) => {
   const projectIdList = projectIds.split(',')
   projectIdList.forEach(async (projectId) => {
 
-    // get IAM policy
+    // create client
     const projectsClient = new ProjectsClient()
-    const policy = await projectsClient.getIamPolicy({
+
+    // get IAM policy
+    const oldBindings = await projectsClient.getIamPolicy({
       resource: `projects/${projectId}`,
       options: {
         requestedPolicyVersion: 3,
       },
     })
-    console.debug(policy)
+    console.debug(oldBindings[0].bindings)
 
-    // get Todate
+    // get Date
     const toDate = new Date()
     console.debug(toDate)
 
     // 次のtimestampが現在の日時よりも前の場合、IAMポリシーを削除する
-    // sample: { "condition": "request.time < timestamp('2021-09-30T00:00:00Z')" }
-    const bindings = policy[0].bindings
-    const newBindings = bindings?.filter((binding) => {
-      if (binding.condition) {
-        const condition = binding.condition.expression
-        const timestamp = condition?.match(/timestamp\('(.*)'\)/)
+    // sample: { condition: { expression: 'request.time < timestamp("2021-09-30T00:00:00Z")' } }
+    const newBindings = oldBindings[0].bindings?.filter((binding) => {
+      if (binding.condition?.expression) {
+        const timestamp = binding.condition.expression.match(/request.time < timestamp\("(.*)"\)/)
         if (timestamp) {
           const toDateTimestamp = toDate.getTime()
           const conditionTimestamp = new Date(timestamp[1]).getTime()
@@ -60,5 +60,15 @@ ff.cloudEvent<PubSubData>('MainFunction', (ce) => {
       return true
     })
     console.debug(newBindings)
+
+    // set IAM policy
+    // await projectsClient.setIamPolicy({
+    //   resource: `projects/${projectId}`,
+    //   policy: {
+    //     bindings: newBindings,
+    //   },
+    // })
+
   })
+
 })
