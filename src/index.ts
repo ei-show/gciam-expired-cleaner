@@ -27,11 +27,11 @@ ff.cloudEvent<PubSubData>('MainFunction', (ce) => {
   }
   console.debug(projectIds)
 
+  // Instantiates a client
+  const projectsClient = new ProjectsClient()
+
   const projectIdList = projectIds.split(',')
   projectIdList.forEach(async (projectId) => {
-
-    // create client
-    const projectsClient = new ProjectsClient()
 
     // get IAM policy
     const oldBindings = await projectsClient.getIamPolicy({
@@ -61,14 +61,23 @@ ff.cloudEvent<PubSubData>('MainFunction', (ce) => {
     })
     console.debug(newBindings)
 
+    // Create request
+    const request = {
+      resource: `projects/${projectId}`,
+      policy: {
+        bindings: newBindings,
+        version: 3,
+      },
+      updateMask: {
+        paths: ["bindings",],
+      },
+    }
+
     // set IAM policy
-    // await projectsClient.setIamPolicy({
-    //   resource: `projects/${projectId}`,
-    //   policy: {
-    //     bindings: newBindings,
-    //   },
-    // })
-
+    try {
+      await projectsClient.setIamPolicy(request)
+    } catch (e) {
+      console.error(e)
+    }
   })
-
 })
