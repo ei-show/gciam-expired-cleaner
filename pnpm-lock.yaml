@@ -15,6 +15,9 @@ importers:
         specifier: ^5.3.0
         version: 5.3.0
     devDependencies:
+      '@jest/globals':
+        specifier: ^29.7.0
+        version: 29.7.0
       '@types/jest':
         specifier: ^29.5.12
         version: 29.5.12
@@ -270,8 +273,8 @@ packages:
     resolution: {integrity: sha512-uWJJf6S2PJL7oZ4ezv16aZl9+IJqPo5GzUv1pZ3/qRiMj13p0ylEgX1+LxBpX71eEPKTwMHoJV2IBBe3EAq7Xw==}
     engines: {node: '>=14.0.0'}
 
-  '@grpc/grpc-js@1.10.7':
-    resolution: {integrity: sha512-ZMBVjSeDAz3tFSehyO6Pd08xZT1HfIwq3opbeM4cDlBh52gmwp0wVIPcQur53NN0ac68HMZ/7SF2rGRD5KmVmg==}
+  '@grpc/grpc-js@1.10.9':
+    resolution: {integrity: sha512-5tcgUctCG0qoNyfChZifz2tJqbRbXVO9J7X6duFcOjY3HUNCxg5D0ZCK7EP9vIcZ0zRpLU9bWkyCqVCLZ46IbQ==}
     engines: {node: '>=12.10.0'}
 
   '@grpc/proto-loader@0.7.13':
@@ -1178,8 +1181,8 @@ packages:
     resolution: {integrity: sha512-9l+zO07h1tDJdIHN74SpnWIlNR+OuOemXlWJlLP9pXy6vFtizgpEzMuwJa4lqY9UAdiAv5DVd5ql0Am916I+aA==}
     engines: {node: '>=14'}
 
-  google-gax@4.3.3:
-    resolution: {integrity: sha512-f4F2Y9X4+mqsrJuLZsuTljYuQpcBnQsCt9ScvZpdM8jGjqrcxyJi5JUiqtq0jtpdHVPzyit0N7f5t07e+kH5EA==}
+  google-gax@4.3.7:
+    resolution: {integrity: sha512-3bnD8RASQyaxOYTdWLgwpQco/aytTxFavoI/UN5QN5txDLp8QRrBHNtCUJ5+Ago+551GD92jG8jJduwvmaneUw==}
     engines: {node: '>=14'}
 
   gopd@1.0.1:
@@ -1801,12 +1804,12 @@ packages:
     resolution: {integrity: sha512-NxNv/kLguCA7p3jE8oL2aEBsrJWgAakBpgmgK6lpPWV+WuOmY6r2/zbAVnP+T8bQlA0nzHXSJSJW0Hq7ylaD2Q==}
     engines: {node: '>= 6'}
 
-  proto3-json-serializer@2.0.1:
-    resolution: {integrity: sha512-8awBvjO+FwkMd6gNoGFZyqkHZXCFd54CIYTb6De7dPaufGJ2XNW+QUNqbMr8MaAocMdb+KpsD4rxEOaTBDCffA==}
+  proto3-json-serializer@2.0.2:
+    resolution: {integrity: sha512-SAzp/O4Yh02jGdRc+uIrGoe87dkN/XtwxfZ4ZyafJHymd79ozp5VG5nyZ7ygqPM5+cpLDjjGnYFUkngonyDPOQ==}
     engines: {node: '>=14.0.0'}
 
-  protobufjs@7.2.6:
-    resolution: {integrity: sha512-dgJaEDDL6x8ASUZ1YqWciTRrdOuYNzoOf27oHNfdyvKqHr5i0FV7FSLU+aIeFjyFgVxrpTOtQUi0BLLBymZaBw==}
+  protobufjs@7.3.2:
+    resolution: {integrity: sha512-RXyHaACeqXeqAKGLDl68rQKbmObRsTIn4TYVUUug1KfS47YWCo5MacGITEryugIgZqORCvJWEk4l449POg5Txg==}
     engines: {node: '>=12.0.0'}
 
   proxy-addr@2.0.7:
@@ -2513,12 +2516,12 @@ snapshots:
 
   '@google-cloud/resource-manager@5.3.0':
     dependencies:
-      google-gax: 4.3.3
+      google-gax: 4.3.7
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  '@grpc/grpc-js@1.10.7':
+  '@grpc/grpc-js@1.10.9':
     dependencies:
       '@grpc/proto-loader': 0.7.13
       '@js-sdsl/ordered-map': 4.4.2
@@ -2527,7 +2530,7 @@ snapshots:
     dependencies:
       lodash.camelcase: 4.3.0
       long: 5.2.3
-      protobufjs: 7.2.6
+      protobufjs: 7.3.2
       yargs: 17.7.2
 
   '@humanwhocodes/config-array@0.13.0':
@@ -3663,9 +3666,9 @@ snapshots:
       - encoding
       - supports-color
 
-  google-gax@4.3.3:
+  google-gax@4.3.7:
     dependencies:
-      '@grpc/grpc-js': 1.10.7
+      '@grpc/grpc-js': 1.10.9
       '@grpc/proto-loader': 0.7.13
       '@types/long': 4.0.2
       abort-controller: 3.0.0
@@ -3673,8 +3676,8 @@ snapshots:
       google-auth-library: 9.9.0
       node-fetch: 2.7.0
       object-hash: 3.0.0
-      proto3-json-serializer: 2.0.1
-      protobufjs: 7.2.6
+      proto3-json-serializer: 2.0.2
+      protobufjs: 7.3.2
       retry-request: 7.0.2
       uuid: 9.0.1
     transitivePeerDependencies:
@@ -4426,11 +4429,11 @@ snapshots:
       kleur: 3.0.3
       sisteransi: 1.0.5
 
-  proto3-json-serializer@2.0.1:
+  proto3-json-serializer@2.0.2:
     dependencies:
-      protobufjs: 7.2.6
+      protobufjs: 7.3.2
 
-  protobufjs@7.2.6:
+  protobufjs@7.3.2:
     dependencies:
       '@protobufjs/aspromise': 1.1.2
       '@protobufjs/base64': 1.1.2

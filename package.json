@@ -4,11 +4,12 @@
   "description": "Cloud Functions that deletes expired conditions in IAM set in Google Cloud.",
   "main": "dist/index.js",
   "scripts": {
-    "lint": "eslint \"src/**/*.{js,ts}\"",
-    "lint:fix": "eslint --fix \"src/**/*.{js,ts}\"",
-    "fmt": "prettier --write \"src/*.{js,ts}\"",
-    "fmt:warn": "prettier --l \"src/*.{js,ts}\"",
+    "lint": "eslint \"{src,test}/**/*.{js,ts}\"",
+    "lint:fix": "eslint --fix \"{src,test}/**/*.{js,ts}\"",
+    "fmt": "prettier --write \"{src,test}/*.{js,ts}\"",
+    "fmt:warn": "prettier --l \"{src,test}/*.{js,ts}\"",
     "test": "jest",
+    "test:watch": "jest --watch",
     "build": "tsc",
     "dev": "tsc-watch --onSuccess 'dotenvx run -f .env.dev -- functions-framework --target=MainFunction --signature-type=cloudevent'",
     "start": "functions-framework --target=MainFunction --signature-type=cloudevent",
@@ -24,6 +25,7 @@
     "@google-cloud/resource-manager": "^5.3.0"
   },
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.14.2",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
