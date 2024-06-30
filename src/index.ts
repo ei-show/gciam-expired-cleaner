@@ -1,10 +1,10 @@
-import * as ff from '@google-cloud/functions-framework'
-import { ProjectsClient } from '@google-cloud/resource-manager'
-
 /**
  * Represents the data structure of a Pub/Sub message.
  */
-interface PubSubData {
+import * as ff from '@google-cloud/functions-framework'
+import { ProjectsClient } from '@google-cloud/resource-manager'
+
+type PubSubData = {
   subscription: string
   message: {
     messageId: string
@@ -14,17 +14,26 @@ interface PubSubData {
   }
 }
 
+/**
+ * Retrieves the project IDs from the environment variable.
+ * @returns The project IDs.
+ * @throws Error if the GCP_PROJECT_IDS environment variable is not set.
+ */
+export const getProjectIds = (): string => {
+  const projectIds: string | undefined = process.env.GCP_PROJECT_IDS
+  if (!projectIds) {
+    throw new Error('GCP_PROJECT_IDS is not set')
+  }
+  return projectIds
+}
+
 ff.cloudEvent<PubSubData>('MainFunction', (ce) => {
   // debug
   console.debug(ce)
   console.debug(process.env)
 
   // get project id
-  const projectIds: string | undefined = process.env.GCP_PROJECT_IDS
-  if (!projectIds) {
-    console.error('GCP_PROJECT_IDS is not set')
-    return
-  }
+  const projectIds = getProjectIds()
   console.debug(projectIds)
 
   // Instantiates a client
@@ -32,7 +41,6 @@ ff.cloudEvent<PubSubData>('MainFunction', (ce) => {
 
   const projectIdList = projectIds.split(',')
   projectIdList.forEach(async (projectId) => {
-
     // get IAM policy
     const oldBindings = await projectsClient.getIamPolicy({
       resource: `projects/${projectId}`,
@@ -69,7 +77,7 @@ ff.cloudEvent<PubSubData>('MainFunction', (ce) => {
         version: 3,
       },
       updateMask: {
-        paths: ["bindings",],
+        paths: ['bindings'],
       },
     }
 
@@ -77,7 +85,7 @@ ff.cloudEvent<PubSubData>('MainFunction', (ce) => {
     try {
       await projectsClient.setIamPolicy(request)
     } catch (e) {
-      console.error(e)
+      throw new Error(`setIamPolicy: ${e}`)
     }
   })
 })
