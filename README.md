@@ -44,3 +44,10 @@ curl localhost:8080 \
     "subscription": "projects/MY-PROJECT/subscriptions/MY-SUB"
   }'
 ```
+
+## Deploy
+
+```sh
+sh scripts/deploy.sh
+```
+

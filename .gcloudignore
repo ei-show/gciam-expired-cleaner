@@ -1,0 +1,16 @@
+docs/
+node_modules/
+scripts/
+src/
+test/
+.env*
+.eslintrc.js
+.gcloudignore
+.gitignore
+.prettierrc
+eslint.config.mjs
+jest.config.js
+README.md
+tsconfig.json
+tsconfig.spec.json
+.git/

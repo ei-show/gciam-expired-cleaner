@@ -2,7 +2,10 @@
   "name": "gciam-expired-cleaner",
   "version": "1.0.0",
   "description": "Cloud Functions that deletes expired conditions in IAM set in Google Cloud.",
-  "main": "dist/index.js",
+  "engines": {
+    "node": "20.x"
+  },
+  "main": "index.js",
   "scripts": {
     "lint": "eslint \"{src,test}/**/*.{js,ts}\"",
     "lint:fix": "eslint --fix \"{src,test}/**/*.{js,ts}\"",
@@ -10,11 +13,9 @@
     "fmt:warn": "prettier --l \"{src,test}/*.{js,ts}\"",
     "test": "jest",
     "test:watch": "jest --watch",
-    "build": "tsc",
+    "pre-build": "tsc",
     "dev": "tsc-watch --onSuccess 'dotenvx run -f .env.dev -- functions-framework --target=MainFunction --signature-type=cloudevent'",
-    "start": "functions-framework --target=MainFunction --signature-type=cloudevent",
-    "prestart": "npm run build",
-    "gcp-build": "npm run build"
+    "start": "functions-framework --target=MainFunction --signature-type=cloudevent"
   },
   "keywords": [],
   "author": "",
