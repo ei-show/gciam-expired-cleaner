@@ -27,6 +27,28 @@ export const getProjectIds = (): string => {
   return projectIds
 }
 
+/**
+ * Get IAM policy
+ * @param projectClient
+ * @param projectId
+ * @returns IAM policy
+ * @throws Error if failed to get IAM policy
+ */
+export const getIamPolicy = async (projectClient: ProjectsClient, projectId: string) => {
+  const request = {
+    resource: `projects/${projectId}`,
+    options: {
+      requestedPolicyVersion: 3,
+    },
+  }
+  const response = await projectClient.getIamPolicy(request)
+  if (!response[0].bindings) {
+    throw new Error('Failed to get IAM policy')
+  }
+  return response[0]
+}
+
+
 ff.cloudEvent<PubSubData>('MainFunction', (ce) => {
   // debug
   console.debug(ce)
@@ -42,13 +64,8 @@ ff.cloudEvent<PubSubData>('MainFunction', (ce) => {
   const projectIdList = projectIds.split(',')
   projectIdList.forEach(async (projectId) => {
     // get IAM policy
-    const oldBindings = await projectsClient.getIamPolicy({
-      resource: `projects/${projectId}`,
-      options: {
-        requestedPolicyVersion: 3,
-      },
-    })
-    console.debug(oldBindings[0].bindings)
+    const oldPolicy = await getIamPolicy(projectsClient, projectId)
+    console.debug(oldPolicy.bindings)
 
     // get Date
     const toDate = new Date()
@@ -56,7 +73,7 @@ ff.cloudEvent<PubSubData>('MainFunction', (ce) => {
 
     // 次のtimestampが現在の日時よりも前の場合、IAMポリシーを削除する
     // sample: { condition: { expression: 'request.time < timestamp("2021-09-30T00:00:00Z")' } }
-    const newBindings = oldBindings[0].bindings?.filter((binding) => {
+    const newBindings = oldPolicy.bindings?.filter((binding) => {
       if (binding.condition?.expression) {
         const timestamp = binding.condition.expression.match(/request.time < timestamp\("(.*)"\)/)
         if (timestamp) {
